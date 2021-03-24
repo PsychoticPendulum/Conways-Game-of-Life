@@ -14,5 +14,8 @@ Here's a video of how it looks: https://www.youtube.com/watch?v=wjFmh1bjCYw
 
 Feel free to use the code however you like.
 
+The icon.png needs to be in a directory called assets. I have yet to figure out how to create directories on here.
+
 Best Regards
 PsychoticPendulum
+
