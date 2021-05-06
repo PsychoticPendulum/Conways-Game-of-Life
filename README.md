@@ -10,11 +10,18 @@ It follows 4 simple rules:
 
 I challenged myself to write this in Python using the PyGame Module for rendering
 
-Here's a video of how it looks: https://www.youtube.com/watch?v=wjFmh1bjCYw
+Keys:
+q       -   quit
+space   -   pause
+c       -   clear
+lmouse  -   activate cell
+rmouse  -   deactivate cell
+s       -   randomize
+m       -   activate all edge cells
+i       -   infinity mode
+r       -   activate bottom half
 
 Feel free to use the code however you like.
-
-The icon.png needs to be in a directory called assets. I have yet to figure out how to create directories on here.
 
 Best Regards
 PsychoticPendulum
