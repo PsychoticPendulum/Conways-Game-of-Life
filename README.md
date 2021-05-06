@@ -1,4 +1,4 @@
-# Conway's Game of Life by PsychoticPendulum
+## Conway's Game of Life by PsychoticPendulum
 
 This is a version of the famous Game of Life invented by British mathematician John Horton Conway in 1970.
 
@@ -10,16 +10,16 @@ It follows 4 simple rules:
 
 I challenged myself to write this in Python using the PyGame Module for rendering
 
-Keys:
-q       -   quit
-space   -   pause
-c       -   clear
-lmouse  -   activate cell
-rmouse  -   deactivate cell
-s       -   randomize
-m       -   activate all edge cells
-i       -   infinity mode
-r       -   activate bottom half
+# Keyboard Shortcuts
+1. space      -     pause
+2. lmouse     -     active cell
+3. rmouse     -     deactivate cell
+4. q          -     quit game
+5. s          -     randomize
+6. m          -     activate corners
+7. r          -     activate bottom half
+8. c          -     clear
+9. i          -     infinity mode
 
 Feel free to use the code however you like.
 
