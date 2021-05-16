@@ -50,10 +50,13 @@ class Colors:
 
 
 class Cell:
-    def __init__(self, x, y, id):
+    def __init__(self, x, y, id, r, g, b):
         self.x = x
         self.y = y
         self.id = id
+        self.r = r
+        self.g = g
+        self.b = b
 
     resolution = 15 
     active = False
@@ -63,8 +66,12 @@ class Cell:
     w = resolution
     h = w
     
+    r = 0
+    g = 0
+    b = 0
+
     rect = pygame.Rect(x,y,w,h)
-    c = [0,19,35]
+    c = [r,g,b]
 
     in_row = int(screen_size[0] / resolution)
     in_column = int(screen_size[1] / resolution)
@@ -110,6 +117,36 @@ def RGB():
         Colors.r += 1
     if Colors.r == 255 and Colors.b > 0:
         Colors.b -= 1
+
+def loop_colors(r,g,b):
+    v = 1
+    max = 255
+    if r > max:
+        r = max
+    elif r < 0:
+        r = 0
+    if g > max:
+        g = max
+    elif g < 0:
+        g = 0
+    if b > max:
+        b = max
+    elif b < 0:
+        b = 0
+
+    if r == max and b > 0:
+        b -= v
+    if r == max and b == 0:
+        g += v
+    if g == max and r > 0:
+        r -= v
+    if g == max and r == 0:
+        b += v
+    if b == max and g > 0:
+        g -= v
+    if b == max and g == 0:
+        r += v
+    return r,g,b
 
 
 def gradient(id):
@@ -181,6 +218,11 @@ def half():
         if cell.id == Cell.total / 2 - Cell.in_row:
             cell.active = True
 
+def all_active():
+    for cell in cells:
+        cell.active = True
+    Game.paused = True
+
 
 def fizzbuzz():
     for cell in cells:
@@ -208,7 +250,7 @@ def midline():
 
 
 def infinity_mode():
-    if Game.tick >= Game.maxFPS * 7:
+    if Game.tick >= Game.maxFPS * 10:
         Game.tick = 0
         seed = random.randint(0,9)
         if seed == 0:
@@ -506,11 +548,12 @@ def update_cells():
     flush_neighbors()
 
     for cell in cells:
+        cell.r, cell.g, cell.b = loop_colors(cell.r, cell.g, cell.b)
         # Rect
         cell.rect = pygame.Rect(cell.x, cell.y, cell.w, cell.h)
         # Color
         if cell.active:
-            cell.c = [Colors.r, Colors.g, Colors.b]
+            cell.c = [cell.r, cell.g, cell.b]
         else:
             cell.c = [0,19,35]
 
@@ -543,7 +586,7 @@ def render_cells():
     for cell in cells:
         c = [0,19,35]
         if cell.active:
-            c = [Colors.r, Colors.g, Colors.b]
+            c = [cell.r, cell.g, cell.b]
         if cell.rect.colliderect(Cursor.rect) and Game.paused:
             c = [192,192,192]
         draw_box(cell.x, cell.y, cell.w, cell.h, c, True)
@@ -590,6 +633,9 @@ def handle_input():
             # Midline
             if event.key == pygame.K_m:
                 midline()
+            # All Active
+            if event.key == pygame.K_a:
+                all_active()
             # Infinity Mode
             if event.key == pygame.K_i:
                 if Game.infinity:
@@ -628,9 +674,15 @@ def create_grid():
     id = 0
     for i in range(Cell.in_column):
         for j in range(Cell.in_row):
-            cells.append(Cell(j * Cell.w, i * Cell.h, id))
-            bg_cells.append(Cell(j + Cell.w, i * Cell.h, id))
+            cells.append(Cell(j * Cell.w, i * Cell.h, id, Colors.r, Colors.g, Colors.b))
+            bg_cells.append(Cell(j + Cell.w, i * Cell.h, id, 0, 0, 0))
             id += 1
+            if j % Cell.in_row-1 == 0:
+                for l in range(int(Cell.in_column / 5)):
+                    RGB()
+    Colors.r = 255
+    Colors.g = 0
+    Colors.b = 0
 
 
 def init_game():
